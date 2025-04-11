@@ -1,6 +1,11 @@
 
 % Created by AB - 2024-10-17
-% Last modified - 2024-10-25
+% Last modified - 2025-04-11
+    % summary of changes: modified the tiledlayout to adapt to # of
+    % participants being analyzed, so it's not hardcoded anymore.
+    % evident by the line, for example ron = tiledlayout(numRows, numCols);
+
+
 
 % make fig for 2024 MUSC SRD
 % pulling alphaPrepNV data from currently processed pt EEG data and
@@ -9,10 +14,14 @@
 % same with the others (alpha exe, beta prep/exe)
 
 function sub_SRDfiguresInterSubject(allAlphaPrepNV,allAlphaExeNV,allBetaPrepNV, ...
-    allBetaExeNV,timePoints,plotHandlesLeft,timeLabels,tempWolf,allPtID)
+    allBetaExeNV,timePoints,plotHandlesLeft,timeLabels,tempWolf,allPtID,excelFileNames)
 
 figure
-neville = tiledlayout(3,5);
+numFiles = length(excelFileNames);
+numCols = 5; 
+numRows = ceil(numFiles / numCols);
+neville = tiledlayout(numRows,numCols);
+
 set(gcf,'Position', [23,137,1747,757]);
 
 nSubjects = height(allAlphaPrepNV) / 3;
@@ -21,6 +30,7 @@ if ~isequal(nSubjects,height(allPtID))
     return
 else
 end
+
 %% start big plotting loop, plotting conditions (e.g., alpha prep) across subjects
 %for i = 1:length(allPtID) % for all patients...
     %% alpha prep
@@ -89,7 +99,7 @@ end
 
     %% alpha Exe
     figure
-    ron = tiledlayout(3,5);
+    ron = tiledlayout(numRows, numCols);
     set(gcf,'Position', [23,137,1747,757]);
 
     for i = 1:height(allAlphaExeNV) % for all values alpha prep list...
@@ -157,7 +167,7 @@ end
 
     %% beta prep
     figure
-    james = tiledlayout(3,5);
+    james = tiledlayout(numRows, numCols);
     set(gcf,'Position', [23,137,1747,757]);
 
     for i = 1:height(allBetaPrepNV) % for all values alpha prep list...
@@ -224,7 +234,7 @@ end
     end
 %% beta exe
     figure
-    sirius = tiledlayout(3,5);
+    sirius = tiledlayout(numRows, numCols);
     set(gcf,'Position', [23,137,1747,757]);
 
     for i = 1:height(allBetaExeNV) % for all values alpha prep list...
